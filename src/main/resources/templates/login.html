@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>Login</title>
+    <link rel="stylesheet" href="/css/styles.css"> <!-- Link to your external CSS -->
+</head>
+<body>
+<div class="form-container">
+    <h1>Login</h1>
+
+    <!-- Registration Success Message -->
+    <p th:if="${param.registration}" class="success">Registration successful! Please log in.</p>
+
+    <!-- Login Error Message -->
+    <p th:if="${param.error}" class="error">Invalid username or password. Please try again.</p>
+
+    <!-- Login Form -->
+    <form action="/login" method="post">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" placeholder="Enter your username" required><br><br>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" placeholder="Enter your password" required><br><br>
+
+        <button type="submit" class="btn-submit">Login</button>
+    </form>
+
+    <!-- Create Account Button -->
+    <p>Don't have an account?</p>
+    <a th:href="@{/form}" class="btn-link">Create an Account</a>
+</div>
+</body>
+</html>

@@ -22,7 +22,7 @@ class ServiceLogicTest {
     private lateinit var userRepository: UserRepository
 
     @InjectMocks
-    private lateinit var serviceLogic: ServiceLogic
+    private lateinit var serviceLogic: ServiceLogic<Any?>
 
     @Test
     fun `should create a new user`() {

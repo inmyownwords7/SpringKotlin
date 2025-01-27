@@ -2,27 +2,26 @@ package org.web.kotlin.exception
 
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 
 @ControllerAdvice
 class GlobalExceptionHandler {
 
-    // Handle UserNotFoundException
-    @ExceptionHandler(UserNotFoundException::class)
-    fun handleUserNotFoundException(ex: UserNotFoundException): ResponseEntity<String> {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.message)
+    @ExceptionHandler(MethodArgumentNotValidException::class)
+    fun handleValidationExceptions(ex: MethodArgumentNotValidException): ResponseEntity<Map<String, String>> {
+        val errors = ex.bindingResult.fieldErrors.associate { it.field to it.defaultMessage.orEmpty() }
+        return ResponseEntity(errors, HttpStatus.BAD_REQUEST)
     }
 
-    // Handle IllegalArgumentException
-    @ExceptionHandler(IllegalArgumentException::class)
-    fun handleIllegalArgumentException(ex: IllegalArgumentException): ResponseEntity<String> {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.message)
+    @ExceptionHandler(NoSuchElementException::class)
+    fun handleNotFoundException(ex: NoSuchElementException): ResponseEntity<String> {
+        return ResponseEntity(ex.message, HttpStatus.NOT_FOUND)
     }
 
-    // Handle Generic Exceptions
     @ExceptionHandler(Exception::class)
-    fun handleGenericException(ex: Exception): ResponseEntity<String> {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occurred: ${ex.message}")
+    fun handleGeneralException(ex: Exception): ResponseEntity<String> {
+        return ResponseEntity("An unexpected error occurred: ${ex.message}", HttpStatus.INTERNAL_SERVER_ERROR)
     }
 }

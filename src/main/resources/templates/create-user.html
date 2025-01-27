@@ -1,31 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <title>Create User</title>
+    <link rel="stylesheet" href="/css/styles.css"> <!-- Link to your external CSS -->
 </head>
 <body>
-<h1>Create User</h1>
+<div class="form-container">
+    <h1>Create an Account</h1>
 
-{{#message}}
-<div style="color: green;">
-    <p>{{message}}</p>
+    <!-- Display message dynamically -->
+    <div th:if="${message}" th:classappend="${success} ? 'success' : 'error'">
+        <p th:text="${message}"></p>
+    </div>
+
+    <!-- Display validation errors -->
+    <ul th:if="${errors}">
+        <li th:each="error : ${errors}" th:text="${error.defaultMessage}"></li>
+    </ul>
+
+    <!-- User creation form -->
+    <form action="/form" method="post">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" th:value="${createUserDTO?.username}" placeholder="Enter your username" required><br><br>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" th:value="${createUserDTO?.email}" placeholder="Enter your email" required><br><br>
+
+        <label for="firstName">First Name:</label>
+        <input type="text" id="firstName" name="firstName" th:value="${createUserDTO?.firstName}" placeholder="Enter your first name" required><br><br>
+
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" name="lastName" th:value="${createUserDTO?.lastName}" placeholder="Enter your last name" required><br><br>
+
+        <button type="submit" class="btn-submit">Create Account</button>
+    </form>
+
+    <!-- Login Link -->
+    <p>Already have an account?</p>
+    <a th:href="@{/login}" class="btn-link">Login</a>
 </div>
-{{/message}}
-
-<form action="/users" method="post">
-    <label for="username">Username:</label>
-    <input type="text" id="username" name="username" required><br><br>
-
-    <label for="email">Email:</label>
-    <input type="email" id="email" name="email" required><br><br>
-
-    <label for="firstName">First Name:</label>
-    <input type="text" id="firstName" name="firstName" required><br><br>
-
-    <label for="lastName">Last Name:</label>
-    <input type="text" id="lastName" name="lastName" required><br><br>
-
-    <button type="submit">Submit</button>
-</form>
 </body>
 </html>
