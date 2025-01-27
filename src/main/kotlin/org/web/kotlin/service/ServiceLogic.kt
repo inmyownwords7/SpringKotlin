@@ -8,9 +8,7 @@ import org.web.kotlin.entity.UserEntity
 import org.web.kotlin.exception.UserNotFoundException
 import org.web.kotlin.repository.UserRepository
 import org.springframework.stereotype.Service
-import org.web.kotlin.dto.UserDTO
 import org.web.kotlin.utils.toEntity
-import org.web.kotlin.utils.toDTO
 import java.time.LocalDateTime
 
 @Service
